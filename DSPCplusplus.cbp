@@ -13,11 +13,11 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="../fftw-3.3.5-dll64" />
+					<Add directory="fftw-3.3.5-dll32" />
 				</Compiler>
 				<Linker>
-					<Add library="../fftw-3.3.5-dll64/libfftw3-3.lib" />
-					<Add library="../fftw-3.3.5-dll64/libfftw3-3.a" />
+					<Add library="fftw-3.3.5-dll32/libfftw3-3.lib" />
+					<Add library="fftw-3.3.5-dll32/libfftw3-3.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -47,6 +47,7 @@
 			<code_completion />
 			<envvars />
 			<debugger />
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

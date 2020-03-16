@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1584359426 source:d:\programming\dsp\dspcplusplus\main.cpp
+	<iostream>
+	<fftw3.h>
+	<cmath>
+
+1469915046 d:\programming\dsp\dspcplusplus\fftw-3.3.5-dll64\fftw3.h
+	<stdio.h>
+	<stddef.h>
+
