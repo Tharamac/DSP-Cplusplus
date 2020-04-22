@@ -1,10 +1,387 @@
 # depslib dependency file v1.0
-1584359426 source:d:\programming\dsp\dspcplusplus\main.cpp
+1586196025 source:d:\programming\dsp\dspcplusplus\main.cpp
+	"gnuplot_i.hpp"
+	"dsp.hpp"
 	<iostream>
+	<complex>
 	<fftw3.h>
+	<fstream>
 	<cmath>
+	<vector>
+	<iterator>
+	<algorithm>
 
 1469915046 d:\programming\dsp\dspcplusplus\fftw-3.3.5-dll64\fftw3.h
 	<stdio.h>
 	<stddef.h>
+
+1469913029 d:\programming\dsp\dspcplusplus\fftw-3.3.5-dll32\fftw3.h
+	<stdio.h>
+	<stddef.h>
+
+1585756605 d:\programming\dsp\matplotlib-cpp-master\matplotlibcpp.h
+	<vector>
+	<map>
+	<array>
+	<numeric>
+	<algorithm>
+	<stdexcept>
+	<iostream>
+	<cstdint>
+	<functional>
+	<unordered_map>
+	<Python.h>
+	<numpy/arrayobject.h>
+	<opencv2/opencv.hpp>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\python.h
+	"patchlevel.h"
+	"pyconfig.h"
+	"pymacconfig.h"
+	<limits.h>
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<unistd.h>
+	<crypt.h>
+	<stddef.h>
+	<assert.h>
+	"pyport.h"
+	"pymacro.h"
+	"pyatomic.h"
+	"pymath.h"
+	"pytime.h"
+	"pymem.h"
+	"object.h"
+	"objimpl.h"
+	"typeslots.h"
+	"pyhash.h"
+	"pydebug.h"
+	"bytearrayobject.h"
+	"bytesobject.h"
+	"unicodeobject.h"
+	"longobject.h"
+	"longintrepr.h"
+	"boolobject.h"
+	"floatobject.h"
+	"complexobject.h"
+	"rangeobject.h"
+	"memoryobject.h"
+	"tupleobject.h"
+	"listobject.h"
+	"dictobject.h"
+	"odictobject.h"
+	"enumobject.h"
+	"setobject.h"
+	"methodobject.h"
+	"moduleobject.h"
+	"funcobject.h"
+	"classobject.h"
+	"fileobject.h"
+	"pycapsule.h"
+	"traceback.h"
+	"sliceobject.h"
+	"cellobject.h"
+	"iterobject.h"
+	"genobject.h"
+	"descrobject.h"
+	"warnings.h"
+	"weakrefobject.h"
+	"structseq.h"
+	"namespaceobject.h"
+	"codecs.h"
+	"pyerrors.h"
+	"pystate.h"
+	"context.h"
+	"pyarena.h"
+	"modsupport.h"
+	"compile.h"
+	"pythonrun.h"
+	"pylifecycle.h"
+	"ceval.h"
+	"sysmodule.h"
+	"osmodule.h"
+	"intrcheck.h"
+	"import.h"
+	"abstract.h"
+	"bltinmodule.h"
+	"eval.h"
+	"pyctype.h"
+	"pystrtod.h"
+	"pystrcmp.h"
+	"dtoa.h"
+	"fileutils.h"
+	"pyfpe.h"
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\patchlevel.h
+
+1553523684 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pyconfig.h
+	<io.h>
+	<float.h>
+	<basetsd.h>
+	<stdio.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pymacconfig.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pyport.h
+	"pyconfig.h"
+	<inttypes.h>
+	<stdlib.h>
+	<ieeefp.h>
+	<math.h>
+	<sys/time.h>
+	<time.h>
+	<sys/time.h>
+	<time.h>
+	<sys/select.h>
+	<sys/stat.h>
+	<stat.h>
+	<sys/types.h>
+	<sys/termio.h>
+	<ctype.h>
+	<wctype.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pymacro.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pyatomic.h
+	"dynamic_annotations.h"
+	"pyconfig.h"
+	<stdatomic.h>
+	<intrin.h>
+	<immintrin.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\dynamic_annotations.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pymath.h
+	"pyconfig.h"
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pytime.h
+	"pyconfig.h"
+	"object.h"
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\object.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pymem.h
+	"pyport.h"
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\objimpl.h
+	"pymem.h"
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\typeslots.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pyhash.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pydebug.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\bytearrayobject.h
+	<stdarg.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\bytesobject.h
+	<stdarg.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\unicodeobject.h
+	<stdarg.h>
+	<ctype.h>
+	<wchar.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\longobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\longintrepr.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\boolobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\floatobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\complexobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\rangeobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\memoryobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\tupleobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\listobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\dictobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\odictobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\enumobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\setobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\methodobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\moduleobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\funcobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\classobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\fileobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pycapsule.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\traceback.h
+	"pystate.h"
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pystate.h
+	"pythread.h"
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pythread.h
+	<pthread.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\sliceobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\cellobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\iterobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\genobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\descrobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\warnings.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\weakrefobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\structseq.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\namespaceobject.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\codecs.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pyerrors.h
+	<stdarg.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\context.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pyarena.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\modsupport.h
+	<stdarg.h>
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\compile.h
+	"code.h"
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\code.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pythonrun.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pylifecycle.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\ceval.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\sysmodule.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\osmodule.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\intrcheck.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\import.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\abstract.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\bltinmodule.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\eval.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pyctype.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pystrtod.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pystrcmp.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\dtoa.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\fileutils.h
+
+1553523680 c:\users\tharamac\appdata\local\programs\python\python37-32\include\pyfpe.h
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\arrayobject.h
+	"ndarrayobject.h"
+	"npy_interrupt.h"
+	"noprefix.h"
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\ndarrayobject.h
+	<Python.h>
+	"ndarraytypes.h"
+	"__multiarray_api.h"
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\ndarraytypes.h
+	"npy_common.h"
+	"npy_endian.h"
+	"npy_cpu.h"
+	"utils.h"
+	"_neighborhood_iterator_imp.h"
+	"npy_1_7_deprecated_api.h"
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\npy_common.h
+	"numpyconfig.h"
+	<npy_config.h>
+	<Python.h>
+	<io.h>
+	<sys/types.h>
+	<inttypes.h>
+	<limits.h>
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\numpyconfig.h
+	"_numpyconfig.h"
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\_numpyconfig.h
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\npy_endian.h
+	<endian.h>
+	<sys/endian.h>
+	"npy_cpu.h"
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\npy_cpu.h
+	"numpyconfig.h"
+	<string.h>
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\utils.h
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\_neighborhood_iterator_imp.h
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\npy_1_7_deprecated_api.h
+	"old_defines.h"
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\old_defines.h
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\__multiarray_api.h
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\npy_interrupt.h
+	<setjmp.h>
+	<signal.h>
+
+1575373760 c:\users\tharamac\appdata\local\programs\python\python37-32\lib\site-packages\numpy\core\include\numpy\noprefix.h
+	"ndarrayobject.h"
+	"npy_interrupt.h"
+
+1586195321 d:\programming\dsp\dspcplusplus\gnuplot_i.hpp
+	<iostream>
+	<string>
+	<vector>
+	<fstream>
+	<sstream>
+	<stdexcept>
+	<cstdio>
+	<stdio.h>
+	<cstdlib>
+	<list>
+	<io.h>
+	<unistd.h>
+
+1586194595 d:\programming\dsp\dspcplusplus\dsp.hpp
+	"gnuplot_i.hpp"
+	<iostream>
+	<conio.h>
+	<complex>
+	<fftw3.h>
+	<fstream>
+	<cmath>
+	<vector>
+	<iterator>
+	<algorithm>
 

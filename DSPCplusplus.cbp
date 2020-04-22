@@ -12,12 +12,18 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-U__STRICT_ANSI__" />
 					<Add option="-g" />
 					<Add directory="fftw-3.3.5-dll32" />
+					<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/include" />
+					<Add directory="D:/Programming/DSP/matplotlib-cpp-master" />
+					<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/numpy/core/include" />
 				</Compiler>
 				<Linker>
 					<Add library="fftw-3.3.5-dll32/libfftw3-3.lib" />
 					<Add library="fftw-3.3.5-dll32/libfftw3-3.a" />
+					<Add library="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/libs/libpython37.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/libgcc.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -27,21 +33,46 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/include" />
+					<Add directory="D:/Programming/DSP/matplotlib-cpp-master" />
+					<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/numpy/core/include" />
+					<Add directory="fftw-3.3.5-dll32" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="fftw-3.3.5-dll32/libfftw3-3.lib" />
+					<Add library="fftw-3.3.5-dll32/libfftw3-3.a" />
+					<Add library="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/libs/libpython37.a" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/libgcc.a" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-fexceptions" />
-			<Add directory="fftw-3.3.5-dll64" />
+			<Add option="-std=c++11" />
+			<Add option="-lpython3.7" />
+			<Add option="-lpthread" />
+			<Add option="-lutil -ldl" />
+			<Add directory="fftw-3.3.5-dll32" />
+			<Add directory="D:/Programming/DSP/matplotlib-cpp-master" />
+			<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/include" />
+			<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/numpy/core/include" />
+			<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/libs" />
+			<Add directory="gnuplot-iostream" />
 		</Compiler>
+		<ResourceCompiler>
+			<Add option="-lboost_iostreams -lboost_system -lboost_filesystem" />
+		</ResourceCompiler>
 		<Linker>
-			<Add library="fftw-3.3.5-dll64/libfftw3-3.lib" />
-			<Add library="fftw-3.3.5-dll64/libfftw3-3.a" />
+			<Add option="-static-libstdc++" />
+			<Add option="-static-libgcc" />
+			<Add library="fftw-3.3.5-dll32/libfftw3-3.lib" />
+			<Add library="fftw-3.3.5-dll32/libfftw3-3.a" />
+			<Add library="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/libs/libpython37.a" />
+			<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/libgcc.a" />
 		</Linker>
+		<Unit filename="dsp.hpp" />
+		<Unit filename="gnuplot_i.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
