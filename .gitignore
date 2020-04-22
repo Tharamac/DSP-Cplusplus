@@ -1,0 +1,6 @@
+gnuploti*
+/bin
+/obj
+*.raw
+*.pcm
+
