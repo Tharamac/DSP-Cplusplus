@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-U__STRICT_ANSI__" />
 					<Add option="-g" />
+					<Add option="-DUSE_FFTW" />
 					<Add directory="fftw-3.3.5-dll32" />
 					<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/include" />
 					<Add directory="D:/Programming/DSP/matplotlib-cpp-master" />
@@ -59,6 +60,7 @@
 			<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/numpy/core/include" />
 			<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/libs" />
 			<Add directory="gnuplot-iostream" />
+			<Add directory="Chord-Detector-and-Chromagram" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add option="-lboost_iostreams -lboost_system -lboost_filesystem" />
@@ -71,9 +73,14 @@
 			<Add library="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/libs/libpython37.a" />
 			<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/libgcc.a" />
 		</Linker>
+		<Unit filename="ChordDetectorandChromagram/ChordDetector.cpp" />
+		<Unit filename="ChordDetectorandChromagram/ChordDetector.h" />
+		<Unit filename="ChordDetectorandChromagram/Chromagram.cpp" />
+		<Unit filename="ChordDetectorandChromagram/Chromagram.h" />
 		<Unit filename="dsp.hpp" />
 		<Unit filename="gnuplot_i.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="plot.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

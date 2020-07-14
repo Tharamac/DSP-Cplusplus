@@ -2,6 +2,7 @@
 
 #include "gnuplot_i.hpp"
 #include "dsp.hpp"
+#include "plot.hpp"
 #include <iostream>
 #include <complex>
 #include <fftw3.h>
@@ -11,9 +12,10 @@
 #include <iterator>
 #include <algorithm>
 
+#include "ChordDetectorandChromagram/Chromagram.h"
+#include "ChordDetectorandChromagram/ChordDetector.h"
 
-
-#define Fs 44100;
+#define Fs 44100
 #define re 0
 #define im 1
 using namespace std;
@@ -39,7 +41,6 @@ int main(){
    // pcm.open("voice16bit.pcm",ios::in|ios::binary|ios::ate);
     pcm.open("twinkle_samples.pcm",ios::in|ios::binary|ios::ate);
     if(pcm.is_open()){
-
         size = (int) pcm.tellg();
         cout << "size = " << size << " bytes" << endl;
         pcm.seekg (0, ios::beg);
@@ -58,8 +59,7 @@ int main(){
     }
 
     // VAD
-    //frame_size for VAD 0.04;
-    //frame_size for note detection 0.075;
+    // frame_size for VAD 0.04;
     const double frame_size = 0.04;
     const int sample_per_frame = frame_size*Fs;
     const int vad_N = 2048;
@@ -77,7 +77,7 @@ int main(){
     int num_of_frame = 0;
     fftw_complex* spectrum = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * (vad_N_fft));
     fftw_plan plan;
-    //TODO:: False rejection optimization.
+
     do{
         double FFT_input[vad_N] = {0.0};
         hann(doubledata, FFT_input, current_window_start, sample_per_frame);
@@ -90,7 +90,6 @@ int main(){
         for(int i = 0; i <  vad_N_fft; i++){
             real_spectrum[i] = sqrt(spectrum[re][i] * spectrum[re][i] +  spectrum[im][i] * spectrum[im][i]);
             freq[i] = (i/vad_N)*Fs;
-
         }
         frame_freq_peak.push_back(find_peak(real_spectrum, vad_N_fft));
         frame_spectralflatness.push_back(abs(spectral_flatness(real_spectrum, vad_N_fft)));
@@ -100,7 +99,7 @@ int main(){
     }while( current_window_start + sample_per_frame <= sample_size );
 
 
-    cout << num_of_frame << endl;
+    //cout << num_of_frame << endl;
     // VAD decision
     // False rejection optimization.
 
@@ -111,34 +110,24 @@ int main(){
     const int sfm_pthresh = 5;
     const double zcr_pthresh = 0.1;
 
-
-
     // Frame #0 - #28 assuming silence.
     double min_energy = *min_element(frame_energy.begin(), frame_energy.begin() + 28);
     double min_freq = *min_element(frame_freq_peak.begin(), frame_freq_peak.begin() + 28 );
     double min_sfm = *min_element(frame_spectralflatness.begin(), frame_spectralflatness.begin() + 28);
-
-
-
-    cout << "minimum energy = " << min_energy << endl;
-    cout << "minimum peak freq = " << min_freq << endl;
-    cout << "minimum sf = " << min_sfm << endl;
+    //cout << "minimum energy = " << min_energy << endl;
+    //cout << "minimum peak freq = " << min_freq << endl;
+    //cout << "minimum sf = " << min_sfm << endl;
 
     double energy_threshold = energy_pthresh * min_energy;
 
     vector<int> VADresult(num_of_frame);
-    /**/
+    /* ignore on NDK */
     vector<int> energy_passed(num_of_frame);
     vector<int> freq_passed(num_of_frame);
     vector<int> sfm_passed(num_of_frame);
     vector<int> zcr_passed(num_of_frame);
-    cout << "frame_energy" << endl;
     double unvoice_count = 0;
     for(int i = 29; i < num_of_frame; ++i){
-
-        if(i > 520 && i < 550 ){
-          cout << i << ". " << frame_energy[i] << " ? "  << energy_threshold << endl;
-        }
         int frame_score = 0;
         if(frame_energy[i] >= energy_threshold){
             energy_passed[i] = 1;
@@ -161,111 +150,110 @@ int main(){
         }
     }
 
+    // VAD plotting;
+    /* ignore on NDK */
+    //plot_data(frame_energy, frame_freq_peak, frame_spectralflatness, frame_zerocrossing_rate, VADresult);
+    //plot_boolean(energy_passed, freq_passed, sfm_passed, zcr_passed, VADresult);
 
-    //VAD test
-    Gnuplot VADplot;
-    //VADplot.cmd(" set multiplot layout 5, 1 title \"Multiplot VAD\" font \",14\" ");
-   // VADplot.cmd(" set tmargin 2 ");
-        //plot energy
-    VADplot.cmd(" set title \"Frame Energy\" ");
-    VADplot.cmd(" unset key ");
-    VADplot.set_grid();
-    VADplot.set_style("lines").plot_x(frame_energy,"Frame Energy");
-     /*   //plot max freq
-    VADplot.cmd(" set title \"Frame Max Frequency\" ");
-    VADplot.cmd(" unset key ");
-    VADplot.set_grid();
-    VADplot.set_style("lines").plot_x(frame_freq_peak,"Frame Max Freq");
-        //plot SF
-    VADplot.cmd(" set title \"Frame Spectral Flatness\" ");
-    VADplot.cmd(" unset key ");
-    VADplot.set_grid();
-    VADplot.set_style("lines").plot_x(frame_spectralflatness,"Frame SFM");
-        //plot zero crossing
-    VADplot.cmd(" set title \"Frame Zero-Crossing Rate\" ");
-    VADplot.cmd(" unset key ");
-    VADplot.set_grid();
-    VADplot.set_style("lines").plot_x(frame_zerocrossing_rate,"Frame ZCR");
-        //plotVAD Result
-    VADplot.cmd(" set title \"Frame VAD\" ");
-    VADplot.cmd(" unset key ");
-    VADplot.set_grid();
-    VADplot.set_style("impulses").plot_x(VADresult,"VAD result");
-    VADplot.cmd(" unset multiplot ");
-*/
-    VADplot.showonscreen();
-
-    // plot boolean of feature
-     Gnuplot VADplot_bool;
-    VADplot_bool.cmd(" set multiplot layout 5, 1 title \"Multiplot VAD bool\" font \",14\" ");
-        //plot energy
-    VADplot_bool.cmd(" set title \"Frame Energy\" ");
-    VADplot_bool.cmd(" unset key ");
-    VADplot_bool.set_grid();
-    VADplot_bool.set_style("lines").plot_x(energy_passed,"Frame Energy");
-        //plot max freq
-    VADplot_bool.cmd(" set title \"Frame Max Frequency\" ");
-    VADplot_bool.cmd(" unset key ");
-    VADplot_bool.set_grid();
-    VADplot_bool.set_style("lines").plot_x(freq_passed,"Frame Max Freq");
-        //plot SF
-    VADplot_bool.cmd(" set title \"Frame Spectral Flatness\" ");
-    VADplot_bool.cmd(" unset key ");
-    VADplot_bool.set_grid();
-    VADplot_bool.set_style("lines").plot_x(sfm_passed,"Frame SFM");
-        //plot zero crossing
-    VADplot_bool.cmd(" set title \"Frame Zero-Crossing Rate\" ");
-    VADplot_bool.cmd(" unset key ");
-    VADplot_bool.set_grid();
-    VADplot_bool.set_style("lines").plot_x(zcr_passed,"Frame ZCR");
-        //plotVAD Result
-    VADplot_bool.cmd(" set title \"Frame VAD\" ");
-    VADplot_bool.cmd(" unset key ");
-    VADplot_bool.set_grid();
-    VADplot_bool.set_style("lines").plot_x(VADresult,"VAD result");
-    VADplot_bool.cmd(" unset multiplot ");
-
-    VADplot_bool.showonscreen();
-    getch();
-
-    /*
     // Note Detection
+    // frame_size for note detection 0.08; (twice of VAD window size)
+    // I use "nd" as a prefix on this part.
+    const double nd_frame_size = 0.080;
+    const int nd_sample_per_frame = nd_frame_size*Fs;
+    const int N = 4096;
+    const int N_fft = N/2+1;
+
+    vector<double> nd_real_spectrum(N_fft);
+    vector<double> nd_freq(N_fft);
+    vector<double> nd_freq_detect;
+    current_window_start = 0;
+    fftw_complex* nd_spectrum = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * (N_fft));
+    int nd_num_of_frame;
+
+    //find peak for note detection using peak frequency not accurate
     do{
-        double FFT_input[8192] = {0.0};
-        //apply hann window
-        hann(doubledata, FFT_input, current_window_start, sample_per_frame) ;// 2205, 4410
-        current_window_start += (sample_per_frame/2);
-        //
-        plan = fftw_plan_dft_r2c_1d(8192, FFT_input, spectrum, FFTW_ESTIMATE);
+        double nd_FFT_input[N] = {0.0};
+        hann(doubledata, nd_FFT_input, current_window_start, nd_sample_per_frame);
+        plan = fftw_plan_dft_r2c_1d(N, nd_FFT_input, nd_spectrum, FFTW_ESTIMATE);
         fftw_execute(plan);
         fftw_destroy_plan(plan);
         fftw_cleanup();
-        spectrum_process(spectrum, real_spectrum);
-        num_of_frame++;
-    }while( current_window_start + sample_per_frame <= sample_size );
+        for(int i = 0; i < N_fft; i++){
+            nd_real_spectrum[i] = sqrt(nd_spectrum[re][i] * nd_spectrum[re][i] +  nd_spectrum[im][i] * nd_spectrum[im][i]);
+            nd_freq[i] = (i/N)*Fs;
+        }
+        nd_freq_detect.push_back(find_peak(nd_real_spectrum, N_fft));
+        nd_num_of_frame++;
+        current_window_start += (nd_sample_per_frame);
+    }while( current_window_start + nd_sample_per_frame <= sample_size );
+    cout <<  nd_num_of_frame << endl;
 
-    cout << i << endl;
+    //find peak for note detection using chromagram
+    current_window_start = 0;
+    vector<int> chroma_vector;
+    int num_of_chromaframe = 0;  cout <<  num_of_chromaframe << endl;
+    do{
+        double nd_chromaframe[nd_sample_per_frame] = {0.0};
+        for(int i = 0; i < nd_sample_per_frame ; i++){
+           nd_chromaframe[i] = doubledata[current_window_start];
+        }
+        Chromagram note_c (nd_sample_per_frame,Fs);
+        note_c.setChromaCalculationInterval(nd_sample_per_frame);
+        note_c.processAudioFrame(nd_chromaframe);
 
+        if (note_c.isReady())
+        {
+            cout << "chroma frame" << num_of_chromaframe << endl;
+            vector<double> chroma = note_c.getChromagram();
+            for(int i = 0; i < chroma.size() ; i++){
+                cout << i << ". " << chroma[i] << endl;
+            }
+            int max_note = max_element(chroma.begin(), chroma.end()) - chroma.begin();
+            chroma_vector.push_back(max_note);
+            // do something with the chromagram here
+        }
+        num_of_chromaframe++;
+        current_window_start += (nd_sample_per_frame);
+    }while( current_window_start + nd_sample_per_frame <= sample_size );
+
+    cout <<  num_of_chromaframe << endl;
+    //TODO:: Test & Compare freq on both VAD frame and Note Detection frame
+    //TODO:: Android -> develop melody or chord choice, and Test argument passing to C++;
+
+    for(int i = 0; i < num_of_chromaframe; i++){
+       // if(VADresult[i*2] == 1)
+            //cout << VADresult[i/2]
+            cout << i << ". " << chroma_vector[i] << endl;
+       // else{
+      //      cout << i << ". -\n";
+       // }
+    }
+    cout << endl;
+    /*
+    for(int i = 0; i < num_of_frame; i++){
+        if(VADresult[i] == 1)
+            cout << i << " " << frame_freq_peak[i] << " distance from A2 => " << note_shift(frame_freq_peak[i],110) << endl;
+        else{
+            cout << i << " ------------------------------\n";
+        }
+    }
+    cout << endl;
+    for(int i = 0; i < nd_num_of_frame; i++){
+        if(VADresult[i*2] == 1)
+            //cout << VADresult[i/2]
+            cout << i << " " << nd_freq_detect[i] << " distance from A2 => " << note_shift(nd_freq_detect[i],110) << endl;
+        else{
+            cout << i << " ------------------------------\n";
+        }
+    }
 */
+
+
+    //getch();
     delete[] bytedata;
     fftw_free(spectrum);
+    fftw_free(nd_spectrum);
 
- /*   for(int i = 0; i < n ; i++){
-        x[i][re] = i + 1;
-        x[i][im] = 0;
-    }
-    fftw_plan plan = fftw_plan_dft_1d(n, x, y, FFTW_FORWARD, FFTW_ESTIMATE);
-    fftw_execute(plan);
-    fftw_destroy_plan(plan);
-    fftw_cleanup();
-    cout << "FFT =" << endl;
-    for(int i =0;i<n;i++){
-        if(y[i][im] < 0)
-            cout << y[i][re] << " - j" << abs(y[i][im]) << endl;
-        else
-            cout << y[i][re] << " + j" << y[i][im] << endl;
-    }
-*/
     return 0;
 }
 

@@ -2,14 +2,14 @@
 #define DSP_HPP_INCLUDED
 #endif // DSP_HPP_INCLUDED
 
-#define PI 3.14159265358979323846
+
 #include "gnuplot_i.hpp"
 #include <iostream>
 #include <conio.h>
 #include <complex>
 #include <fftw3.h>
 #include <fstream>
-#include <cmath>
+#include <math.h>
 #include <vector>
 #include <iterator>
 #include <algorithm>
@@ -22,14 +22,14 @@ using namespace std;
 void hann(const vector<short> &data, short* output, int point_start, int window_size){
     //all this function argument are in sampling point
     for(int i = point_start; i < point_start + window_size ; i++){
-      output[i - point_start] = data[i] * (0.5* (1 - cos(2*PI*i/(window_size))));
+      output[i - point_start] = data[i] * (0.5* (1 - cos(2*M_PI*i/(window_size))));
     }
 }
 
 void hann(const vector<double> &data, double *output, int point_start, int window_size){
     //all this function argument are in sampling point
     for(int i = point_start; i < point_start + window_size ; i++){
-      output[i - point_start] = data[i] * (0.5* (1 - cos(2*PI*i/(window_size))));
+      output[i - point_start] = data[i] * (0.5* (1 - cos(2*M_PI*i/(window_size))));
     }
 }
 
@@ -97,6 +97,10 @@ double spectral_flatness(vector<double> real_spectrum,  size_t N){
     return 10*log10(geomean/arithmean);
 }
 
+int note_shift(double freq, double base_freq){
+    return round(12*log2(freq/base_freq));
+}
+
 
 void plot(vector<double> x, string type, string title ){
     try
@@ -128,4 +132,7 @@ void plot(vector<double> x, vector<double> y, string type, string title){
         cout << ge.what() << endl;
     }
 }
+
+
+
 

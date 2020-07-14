@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1591200882 source:d:\programming\dsp\dspcplusplus\main.cpp
+1594712922 source:d:\programming\dsp\dspcplusplus\main.cpp
 	"gnuplot_i.hpp"
 	"dsp.hpp"
+	"plot.hpp"
 	<iostream>
 	<complex>
 	<fftw3.h>
@@ -10,6 +11,8 @@
 	<vector>
 	<iterator>
 	<algorithm>
+	"ChordDetectorandChromagram/Chromagram.h"
+	"ChordDetectorandChromagram/ChordDetector.h"
 
 1469915046 d:\programming\dsp\dspcplusplus\fftw-3.3.5-dll64\fftw3.h
 	<stdio.h>
@@ -373,15 +376,51 @@
 	<io.h>
 	<unistd.h>
 
-1591179117 d:\programming\dsp\dspcplusplus\dsp.hpp
+1594645001 d:\programming\dsp\dspcplusplus\dsp.hpp
 	"gnuplot_i.hpp"
 	<iostream>
 	<conio.h>
 	<complex>
 	<fftw3.h>
 	<fstream>
-	<cmath>
+	<math.h>
 	<vector>
 	<iterator>
 	<algorithm>
+
+1591794935 d:\programming\dsp\dspcplusplus\plot.hpp
+	"gnuplot_i.hpp"
+	<iostream>
+
+1594643094 d:\programming\dsp\dspcplusplus\chord-detector-and-chromagram\chromagram.h
+	<math.h>
+	<vector>
+	"fftw3.h"
+	"kiss_fft.h"
+
+1594643094 d:\programming\dsp\dspcplusplus\chord-detector-and-chromagram\chorddetector.h
+	<vector>
+
+1594643094 source:d:\programming\dsp\dspcplusplus\chord-detector-and-chromagram\chorddetector.cpp
+	"ChordDetector.h"
+	<math.h>
+
+1594643094 source:d:\programming\dsp\dspcplusplus\chord-detector-and-chromagram\chromagram.cpp
+	"Chromagram.h"
+
+1594643094 source:d:\programming\dsp\dspcplusplus\chorddetectorandchromagram\chorddetector.cpp
+	"ChordDetector.h"
+	<math.h>
+
+1594643094 d:\programming\dsp\dspcplusplus\chorddetectorandchromagram\chorddetector.h
+	<vector>
+
+1594651535 source:d:\programming\dsp\dspcplusplus\chorddetectorandchromagram\chromagram.cpp
+	"Chromagram.h"
+
+1594643094 d:\programming\dsp\dspcplusplus\chorddetectorandchromagram\chromagram.h
+	<math.h>
+	<vector>
+	"fftw3.h"
+	"kiss_fft.h"
 
