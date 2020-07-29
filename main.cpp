@@ -9,6 +9,7 @@
 #include <fstream>
 #include <cmath>
 #include <vector>
+#include <array>
 #include <iterator>
 #include <algorithm>
 
@@ -18,10 +19,8 @@
 #define Fs 44100
 #define re 0
 #define im 1
+#define C3 130.81278265
 using namespace std;
-
-
-
 
 /*
     assume that sample_size = 8820
@@ -148,7 +147,22 @@ int main(){
         if(frame_score > 2){
             VADresult[i] = 1;
         }
+
     }
+  //rting because if you expand window size the less silence padding.
+    vector<int> VADcompare;
+    int pos = 0;
+    int   k = 0;
+    while (pos < VADresult.size()){
+         int result = (VADresult[pos] || VADresult[pos+1]) && VADresult[pos+2];
+         VADcompare.push_back(result);
+         pos += 2;
+         k++;
+    }
+    VADcompare[VADcompare.size()-1] = 0;
+
+
+
 
     // VAD plotting;
     /* ignore on NDK */
@@ -165,10 +179,11 @@ int main(){
 
     vector<double> nd_real_spectrum(N_fft);
     vector<double> nd_freq(N_fft);
-    vector<double> nd_freq_detect;
+    vector<vector<double>> nd_5freq_detect;
+    vector<int> notes_from_filter_bank;
     current_window_start = 0;
     fftw_complex* nd_spectrum = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * (N_fft));
-    int nd_num_of_frame;
+    int nd_num_of_frame=0;
 
     //find peak for note detection using peak frequency not accurate
     do{
@@ -182,72 +197,64 @@ int main(){
             nd_real_spectrum[i] = sqrt(nd_spectrum[re][i] * nd_spectrum[re][i] +  nd_spectrum[im][i] * nd_spectrum[im][i]);
             nd_freq[i] = (i/N)*Fs;
         }
-        nd_freq_detect.push_back(find_peak(nd_real_spectrum, N_fft));
-        nd_num_of_frame++;
-        current_window_start += (nd_sample_per_frame);
-    }while( current_window_start + nd_sample_per_frame <= sample_size );
-    cout <<  nd_num_of_frame << endl;
+        double peak_of_each_notes[48];
 
-    //find peak for note detection using chromagram
+        int note = 0;
+        double max_peak = 0;
+        for(int i = 0; i < 48; i++){
+            peak_of_each_notes[i] = filterBank_with_peak(nd_real_spectrum, i, C3, N_fft);
+
+            if(peak_of_each_notes[i] > max_peak){
+                max_peak = peak_of_each_notes[i];
+                note = i;
+            }
+        }
+        notes_from_filter_bank.push_back(note);
+
+        vector<double> peaks(5);
+        find5peaks(nd_real_spectrum, N_fft, peaks);
+        nd_5freq_detect.push_back(peaks);
+        nd_num_of_frame++;
+        current_window_start += (nd_sample_per_frame/2);
+    }while( current_window_start + nd_sample_per_frame <= sample_size );
+    //cout <<  nd_num_of_frame << endl;
+    // store in 1D array, then convert to 2D array size[nd_num_of_frame][5]
+   // nd_5freq_detect.resize(nd_num_of_frame);
+  //find peak for note detection using chromagram
+    /*
     current_window_start = 0;
     vector<int> chroma_vector;
-    int num_of_chromaframe = 0;  cout <<  num_of_chromaframe << endl;
+    int num_of_chromaframe = 0;
     do{
         double nd_chromaframe[nd_sample_per_frame] = {0.0};
         for(int i = 0; i < nd_sample_per_frame ; i++){
-           nd_chromaframe[i] = doubledata[current_window_start];
+            nd_chromaframe[i] = doubledata[i + current_window_start];
         }
+
         Chromagram note_c (nd_sample_per_frame,Fs);
         note_c.setChromaCalculationInterval(nd_sample_per_frame);
         note_c.processAudioFrame(nd_chromaframe);
 
         if (note_c.isReady())
         {
-            cout << "chroma frame" << num_of_chromaframe << endl;
+
             vector<double> chroma = note_c.getChromagram();
-            for(int i = 0; i < chroma.size() ; i++){
-                cout << i << ". " << chroma[i] << endl;
-            }
             int max_note = max_element(chroma.begin(), chroma.end()) - chroma.begin();
             chroma_vector.push_back(max_note);
-            // do something with the chromagram here
+
         }
         num_of_chromaframe++;
-        current_window_start += (nd_sample_per_frame);
+        current_window_start += (nd_sample_per_frame/2);
     }while( current_window_start + nd_sample_per_frame <= sample_size );
-
-    cout <<  num_of_chromaframe << endl;
-    //TODO:: Test & Compare freq on both VAD frame and Note Detection frame
-    //TODO:: Android -> develop melody or chord choice, and Test argument passing to C++;
-
-    for(int i = 0; i < num_of_chromaframe; i++){
-       // if(VADresult[i*2] == 1)
-            //cout << VADresult[i/2]
-            cout << i << ". " << chroma_vector[i] << endl;
-       // else{
-      //      cout << i << ". -\n";
-       // }
+    */
+    for(int i = 0 ; i < nd_num_of_frame ; i++){
+        if(VADcompare[i]){
+            cout << notes_from_filter_bank[i] % 12 << " | "  ;
+            for(int j = 0; j < 5 ; j++)
+                cout << note_shift(nd_5freq_detect[i][j],C3) % 12 << " " << endl;
+        }else
+            cout << "-------------" << endl;
     }
-    cout << endl;
-    /*
-    for(int i = 0; i < num_of_frame; i++){
-        if(VADresult[i] == 1)
-            cout << i << " " << frame_freq_peak[i] << " distance from A2 => " << note_shift(frame_freq_peak[i],110) << endl;
-        else{
-            cout << i << " ------------------------------\n";
-        }
-    }
-    cout << endl;
-    for(int i = 0; i < nd_num_of_frame; i++){
-        if(VADresult[i*2] == 1)
-            //cout << VADresult[i/2]
-            cout << i << " " << nd_freq_detect[i] << " distance from A2 => " << note_shift(nd_freq_detect[i],110) << endl;
-        else{
-            cout << i << " ------------------------------\n";
-        }
-    }
-*/
-
 
     //getch();
     delete[] bytedata;

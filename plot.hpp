@@ -17,20 +17,20 @@ void plot_data(
                ){
     //VAD test
     Gnuplot VADplot;
-   /* VADplot.cmd(" set multiplot layout 5, 1 title \"Multiplot VAD\" font \",14\" ");
+   VADplot.cmd(" set multiplot layout 5, 1 title \"Multiplot VAD\" font \",14\" ");
     VADplot.cmd(" set tmargin 2 ");
         //plot energy
     VADplot.cmd(" set title \"Frame Energy\" ");
     VADplot.cmd(" unset key ");
     VADplot.set_grid();
     VADplot.set_style("lines").plot_x(frame_energy,"Frame Energy");
-    */
+
        //plot max freq
     VADplot.cmd(" set title \"Frame Max Frequency\" ");
     VADplot.cmd(" unset key ");
     VADplot.set_grid();
     VADplot.set_style("lines").plot_x(frame_freq_peak,"Frame Max Freq");
-    /*    //plot SF
+        //plot SF
     VADplot.cmd(" set title \"Frame Spectral Flatness\" ");
     VADplot.cmd(" unset key ");
     VADplot.set_grid();
@@ -45,7 +45,7 @@ void plot_data(
     VADplot.cmd(" unset key ");
     VADplot.set_grid();
     VADplot.set_style("impulses").plot_x(VADresult,"VAD result");
-    VADplot.cmd(" unset multiplot ");*/
+    VADplot.cmd(" unset multiplot ");
     VADplot.showonscreen();
     getch();
 }
@@ -88,7 +88,7 @@ void plot_boolean(
     VADplot_bool.cmd(" unset multiplot ");
 
     VADplot_bool.showonscreen();
-
+    getch();
 }
 
 

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1594712922 source:d:\programming\dsp\dspcplusplus\main.cpp
+1595784891 source:d:\programming\dsp\dspcplusplus\main.cpp
 	"gnuplot_i.hpp"
 	"dsp.hpp"
 	"plot.hpp"
@@ -9,6 +9,7 @@
 	<fstream>
 	<cmath>
 	<vector>
+	<array>
 	<iterator>
 	<algorithm>
 	"ChordDetectorandChromagram/Chromagram.h"
@@ -376,7 +377,7 @@
 	<io.h>
 	<unistd.h>
 
-1594645001 d:\programming\dsp\dspcplusplus\dsp.hpp
+1595784907 d:\programming\dsp\dspcplusplus\dsp.hpp
 	"gnuplot_i.hpp"
 	<iostream>
 	<conio.h>
@@ -385,10 +386,11 @@
 	<fstream>
 	<math.h>
 	<vector>
+	<array>
 	<iterator>
 	<algorithm>
 
-1591794935 d:\programming\dsp\dspcplusplus\plot.hpp
+1595781380 d:\programming\dsp\dspcplusplus\plot.hpp
 	"gnuplot_i.hpp"
 	<iostream>
 
