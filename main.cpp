@@ -14,8 +14,8 @@
 #include <iterator>
 #include <algorithm>
 
-#include "ChordDetectorandChromagram/Chromagram.h"
-#include "ChordDetectorandChromagram/ChordDetector.h"
+#include "Chord-Detector-and-Chromagram\src\ChordDetector.h"
+#include  "Chord-Detector-and-Chromagram\src\Chromagram.h"
 
 #define Fs 44100
 #define re 0
