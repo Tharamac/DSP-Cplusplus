@@ -1,5 +1,6 @@
 # depslib dependency file v1.0
-1595784891 source:d:\programming\dsp\dspcplusplus\main.cpp
+1600664910 source:d:\programming\dsp\dspcplusplus\main.cpp
+	"raw_audio.h"
 	"gnuplot_i.hpp"
 	"dsp.hpp"
 	"plot.hpp"
@@ -377,7 +378,7 @@
 	<io.h>
 	<unistd.h>
 
-1595784907 d:\programming\dsp\dspcplusplus\dsp.hpp
+1598120331 d:\programming\dsp\dspcplusplus\dsp.hpp
 	"gnuplot_i.hpp"
 	<iostream>
 	<conio.h>
@@ -425,4 +426,14 @@
 	<vector>
 	"fftw3.h"
 	"kiss_fft.h"
+
+1600665473 d:\programming\dsp\dspcplusplus\raw_audio.h
+	<fstream>
+	<vector>
+	<iostream>
+
+1600665690 source:d:\programming\dsp\dspcplusplus\raw_audio.cpp
+	"raw_audio.h"
+
+1600170655 source:d:\programming\dsp\dspcplusplus\musical_note.cpp
 

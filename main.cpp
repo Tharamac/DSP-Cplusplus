@@ -1,8 +1,9 @@
 #define PI 3.14159265358979323846
-
+#include "raw_audio.h"
 #include "gnuplot_i.hpp"
 #include "dsp.hpp"
 #include "plot.hpp"
+
 #include <iostream>
 #include <complex>
 #include <fftw3.h>
@@ -34,11 +35,11 @@ using namespace std;
     2205     data(2205 -> 6614)         while ( 4410 + 4410 = 8820 !< 7540) exit;
 */
 int main(){
+    /*
     ifstream pcm;
     char* bytedata;
     int size;
-   // pcm.open("voice16bit.pcm",ios::in|ios::binary|ios::ate);
-    pcm.open("twinkle_samples.pcm",ios::in|ios::binary|ios::ate);
+    pcm.open("samples/bew_do.pcm",ios::in|ios::binary|ios::ate);
     if(pcm.is_open()){
         size = (int) pcm.tellg();
         cout << "size = " << size << " bytes" << endl;
@@ -56,6 +57,11 @@ int main(){
         shortdata[i] = (( (short) bytedata[i*2+1] ) << 8 ) | (bytedata[i*2] & 0xFF);
         doubledata[i] = (double)shortdata[i] / 32768.0;
     }
+    */
+
+    RawAudio audio_input = RawAudio("samples/bew_do.pcm");
+    vector<double> doubledata = audio_input.doubledata;
+    const int sample_size = audio_input.getSampleSize();
 
     // VAD
     // frame_size for VAD 0.04;
@@ -96,9 +102,8 @@ int main(){
         //cout << num_of_frame << ". Start: " << current_window_start << " End: " << current_window_start + sample_per_frame << endl;
         current_window_start += (sample_per_frame/2);
     }while( current_window_start + sample_per_frame <= sample_size );
+    cout << num_of_frame << endl;
 
-
-    //cout << num_of_frame << endl;
     // VAD decision
     // False rejection optimization.
 
@@ -118,7 +123,7 @@ int main(){
     //cout << "minimum sf = " << min_sfm << endl;
 
     double energy_threshold = energy_pthresh * min_energy;
-
+    cout << energy_threshold<< endl;
     vector<int> VADresult(num_of_frame);
     /* ignore on NDK */
     vector<int> energy_passed(num_of_frame);
@@ -197,8 +202,8 @@ int main(){
             nd_real_spectrum[i] = sqrt(nd_spectrum[re][i] * nd_spectrum[re][i] +  nd_spectrum[im][i] * nd_spectrum[im][i]);
             nd_freq[i] = (i/N)*Fs;
         }
-        double peak_of_each_notes[48];
 
+        double peak_of_each_notes[48];
         int note = 0;
         double max_peak = 0;
         for(int i = 0; i < 48; i++){
@@ -217,7 +222,7 @@ int main(){
         nd_num_of_frame++;
         current_window_start += (nd_sample_per_frame/2);
     }while( current_window_start + nd_sample_per_frame <= sample_size );
-    //cout <<  nd_num_of_frame << endl;
+    cout <<  nd_num_of_frame << endl;
     // store in 1D array, then convert to 2D array size[nd_num_of_frame][5]
    // nd_5freq_detect.resize(nd_num_of_frame);
   //find peak for note detection using chromagram
@@ -247,17 +252,24 @@ int main(){
         current_window_start += (nd_sample_per_frame/2);
     }while( current_window_start + nd_sample_per_frame <= sample_size );
     */
+
+    //  Test Note Detection
     for(int i = 0 ; i < nd_num_of_frame ; i++){
         if(VADcompare[i]){
-            cout << notes_from_filter_bank[i] % 12 << " | "  ;
-            for(int j = 0; j < 5 ; j++)
-                cout << note_shift(nd_5freq_detect[i][j],C3) % 12 << " " << endl;
+            cout << nd_5freq_detect[i][0] << "\t";
+            cout << note_shift(nd_5freq_detect[i][0], C3) << "\t";
+            cout << notes_from_filter_bank[i] << "\t";
+
+            //for(int j = 0; j < 5 ; j++)
+
+            //cout << endl;
         }else
-            cout << "-------------" << endl;
+            cout << "-";
+        cout << " | " << endl;
     }
+    cout << endl;
 
     //getch();
-    delete[] bytedata;
     fftw_free(spectrum);
     fftw_free(nd_spectrum);
 

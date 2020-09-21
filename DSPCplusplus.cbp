@@ -80,6 +80,10 @@
 		<Unit filename="dsp.hpp" />
 		<Unit filename="gnuplot_i.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="musical_note.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="musical_notes.h" />
 		<Unit filename="plot.hpp" />
 		<Extensions>
 			<code_completion />

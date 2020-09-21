@@ -1,6 +1,6 @@
 /gnuploti*
-bin
-obj
+bin/Debug/*
+obj/Debug/*
 /*.raw
 /*.pcm
 

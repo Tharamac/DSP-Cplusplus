@@ -96,7 +96,7 @@ void find5peaks(vector<double> real_spectrum, int N, vector<double>& topfreq){
     double top5loud[5] = {0.0};
 
 
-    for (int i = 0; i < (3000*N/44100) ; i ++) {
+    for (int i = 1; i < (2000*N/44100) ; i ++) {
         if (real_spectrum[i] > top5loud[0]) {
             for(int j = 4; j > 0; j--){
                 top5loud[j] = top5loud[j-1];
@@ -191,41 +191,49 @@ void VAD_convert(vector<int> vad, vector<int> new_vad){
 }
 
 
-double filterBank_with_peak(vector<double> real_spectrum,int note, double ref, int FFT_size){
+double filterBank_with_peak(vector<double> real_spectrum,int note, double note_ref, int FFT_size){
 	vector<double> temp(real_spectrum.size());
-	/*
+	for(int i = 0; i <  real_spectrum.size(); i++){
+        temp[i] = 0;
+	}
+
 	Gnuplot test;
+	/*
 	vector<double> sample(real_spectrum.size());
     for(int i = 0; i < sample.size() ; i++){
         sample[i] = 1;
     }
     */
-	double start_freq = ref * pow(2 , (note - 1) / 12.0);
-	double mid_freq = ref * pow(2 , note / 12.0);
-	double end_freq = ref * pow(2 , (note + 1) / 12.0);
-	double slope1 =  1 / (mid_freq - start_freq);
-	double slope2 = -1 / (end_freq - mid_freq);
-	double y_intercept1 = 1 - (slope1 * mid_freq);
-	double y_intercept2 = 1 - (slope2 * mid_freq);
+	double start_freq = note_ref * pow(2 , (note - 1) / 12.0);
+	double mid_freq = note_ref * pow(2 , note / 12.0);
+	double end_freq = note_ref * pow(2 , (note + 1) / 12.0);
+	cout << start_freq << " " << mid_freq << " "  << end_freq << endl;
+	const double log_slope = 12.0;
 
-    for(int i = 0; i < real_spectrum.size() ; i++){
-        double freq_bin = i*0.5*Fs/FFT_size;
-        if(freq_bin  < start_freq){
+    for(int i = 1; i < real_spectrum.size() ; i++){
+        double freq_i = i*0.5*Fs/FFT_size;
+        if(freq_i < start_freq){
             temp[i] = 0;
-        }else if (freq_bin <= mid_freq){
-            temp[i] = ((slope1 * freq_bin) + y_intercept1 )  * real_spectrum[i];
-        }else if (freq_bin <= end_freq){
-            temp[i] = ((slope2 * freq_bin) + y_intercept2 )  * real_spectrum[i];
+           // cout << "-  " ;
+        }else if (freq_i <= mid_freq){
+            temp[i] =  log_slope * log2(freq_i/start_freq) /* real_spectrum[i]*/;
+           // cout << "R  " ;
+        }else if (freq_i <= end_freq){
+            temp[i] =  log_slope * log2(end_freq/freq_i) /* real_spectrum[i]*/;
+            //cout << "F  " ;
         }else{
             temp[i] = 0;
+            //cout << "-  ";
         }
+        //cout << freq_i << " " << temp[i] << endl;
     }
     double peak = *max_element(temp.begin(), temp.end());
-    return peak;
-    /*
+
+
     test.set_grid();
-    test.set_style("impulses").plot_x(temp,"spectrum after applying filter");
+    test.set_style("lines").plot_x(temp,"spectrum after applying filter");
     test.showonscreen();
     getch();
-    */
+    return peak;
+
 }
