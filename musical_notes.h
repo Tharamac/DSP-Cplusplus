@@ -3,115 +3,76 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #define Fs 44100
+using namespace std;
 
 enum NotePitch{
-    C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
+    C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B, rest = -1
 };
+
 
 class NoteUnit{
     private:
-        NotePitch pitch;
+        int pitch;
         int octave;
     public:
-        NoteUnit(NotePitch _pitch, int _octave){
-            this.pitch = _pitch;
-            this.octave = _octave;
-        }
-        NoteUnit(int offset, NoteUnit ref_note){
-            this.pitch = ref_note.getPitch();
-            this.octave = ref_note.getOctave();
-            shiftNote(offset);
-        }
-        NotePitch getPitch() return pitch;
-        int getOctave() return octave;
-        void shiftNote(int offset){
-            int octave_shift = offset / 12;
-            int pitch_shift = offset % 12;
-            octave += octave_shift;
-            pitch = (pitch + pitch_shift) % 12;
-        }
-        void transpose(int octave_shift){
-            octave += octave_shift;
-        }
-        void makeRestNote(){
-            this.pitch = -1;
-            this.octave = -1;
-        }
-
+        NoteUnit(int _pitch, int _octave);
+        NoteUnit(int offset, NoteUnit ref_note);
+        int getPitch();
+        int getOctave();
+        void shiftNote(int offset);
+        void transpose(int octave_shift);
+        void makeRestNote();
+        string toString();
+        bool equal(NoteUnit b);
+        int distance(NoteUnit b);
 };
 
 class Note : public NoteUnit{
     private:
-        int frameLength
-        double timeLength
-        int duration
+        int frameLength;
+        double timeLength;
+        int duration;
     public:
-        Note(NotePitch pitch, int octave);
+        Note(int pitch, int octave);
         void increaseFrame();
-};
+        void increaseFrame(int frame);
+        string toString();
+        int getFrameLength();
 
-class Chord : public Note{
-    private:
-        string chordType
-    public:
-        Chord(NotePitch, int octave, string chord_type);
 };
 
 class Key{
-    private:
-        NoteUnit note;
-        bool isMajor;
     public:
-        Key(NoteUnit key, bool setMinor)
+        int note;
+        bool isMajor; //Major = true
+        void setPitch(int _note){
+            this->note = _note;
+        }
+        void setMajor(bool _isMajor){
+            this->isMajor = _isMajor;
+        }
+        string toString(){
+            string note_str = "";
+            switch(this->note){
+                case C : note_str = "C"; break;
+                case Db: note_str = "C#"; break;
+                case D : note_str = "D"; break;
+                case Eb: note_str = "D#"; break;
+                case E : note_str = "E"; break;
+                case F : note_str = "F"; break;
+                case Gb: note_str = "F#"; break;
+                case G : note_str = "G"; break;
+                case Ab: note_str = "G#"; break;
+                case A : note_str = "A"; break;
+                case Bb: note_str = "A#"; break;
+                case B : note_str = "B"; break;
+            }
+            return "Key : " + note_str + (isMajor ? "" : "m");
+        }
 };
 
-class trackSequence{
-    private:
-        Key key;
-        int tempo;
-        int frameLength;
-        int trackDuration;
-    public:
-        virtual Key calcKey() = 0;
-        virtual int calcTempo() = 0;
-        virtual int calcFrameLength() = 0;
-        virtual int calcDurations() = 0;
-        virtual void cleanTrack() = 0; //use if final note are no-note
-        virtual void writeFile() = 0;
-        virtual void updateSequence() = 0; //2.3
-        virtual void removeUnit(int position) // 0, -1 ,2 ,3
-};
-
-class Melody : trackSequence{
-    private:
-        vector<Note> noteSequence;
-    public:
-        Key calcKey();
-        int calcTempo();
-        int calcFrameLength();
-        int calcDurations()0;
-        void cleanTrack(); //use if final note are no-note
-        void writeFile();
-        void updateSequence(); //2.3
-        void removeUnit(int position); // 0, -1 , -2
-        void registerNewNote(Note newNote);
-};
-
-class ChordProgression : trackSequence{
-    private:
-        vector<Chord> chordSequence;
-    public:
-        Key calcKey();
-        int calcTempo();
-        int calcFrameLength();
-        int calcDurations()0;
-        void cleanTrack(); //use if final note are no-note
-        void writeFile();
-        void updateSequence(); //2.3
-        void removeUnit(int position); // 0, -1 , -2
-        void registerNewChord(Note newNote);
-};
-
+void transformNotes(vector<int> &note_offset, vector<NoteUnit> &detected_notes, vector<bool> &VADresult, NoteUnit ref_note);
 
 #endif // MUSICAL_NOTES_H_INCLUDED

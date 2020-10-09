@@ -1,9 +1,12 @@
 # depslib dependency file v1.0
-1600664910 source:d:\programming\dsp\dspcplusplus\main.cpp
+1601398457 source:d:\programming\dsp\dspcplusplus\main.cpp
 	"raw_audio.h"
 	"gnuplot_i.hpp"
 	"dsp.hpp"
 	"plot.hpp"
+	"musical_notes.h"
+	"chord.h"
+	"track_sequence.h"
 	<iostream>
 	<complex>
 	<fftw3.h>
@@ -13,8 +16,8 @@
 	<array>
 	<iterator>
 	<algorithm>
-	"ChordDetectorandChromagram/Chromagram.h"
-	"ChordDetectorandChromagram/ChordDetector.h"
+	"Chord-Detector-and-Chromagram\src\ChordDetector.h"
+	"Chord-Detector-and-Chromagram\src\Chromagram.h"
 
 1469915046 d:\programming\dsp\dspcplusplus\fftw-3.3.5-dll64\fftw3.h
 	<stdio.h>
@@ -378,7 +381,7 @@
 	<io.h>
 	<unistd.h>
 
-1598120331 d:\programming\dsp\dspcplusplus\dsp.hpp
+1600695304 d:\programming\dsp\dspcplusplus\dsp.hpp
 	"gnuplot_i.hpp"
 	<iostream>
 	<conio.h>
@@ -432,8 +435,52 @@
 	<vector>
 	<iostream>
 
-1600665690 source:d:\programming\dsp\dspcplusplus\raw_audio.cpp
+1600697287 source:d:\programming\dsp\dspcplusplus\raw_audio.cpp
 	"raw_audio.h"
 
-1600170655 source:d:\programming\dsp\dspcplusplus\musical_note.cpp
+1601210759 source:d:\programming\dsp\dspcplusplus\musical_note.cpp
+	"musical_notes.h"
+
+1600666887 source:d:\programming\dsp\dspcplusplus\chord-detector-and-chromagram\src\chorddetector.cpp
+	"ChordDetector.h"
+	<math.h>
+
+1600666887 d:\programming\dsp\dspcplusplus\chord-detector-and-chromagram\src\chorddetector.h
+	<vector>
+
+1600666887 source:d:\programming\dsp\dspcplusplus\chord-detector-and-chromagram\src\chromagram.cpp
+	"Chromagram.h"
+
+1600666887 d:\programming\dsp\dspcplusplus\chord-detector-and-chromagram\src\chromagram.h
+	<math.h>
+	<vector>
+	"fftw3.h"
+	"kiss_fft.h"
+
+1601218292 d:\programming\dsp\dspcplusplus\musical_notes.h
+	<iostream>
+	<vector>
+	<string>
+
+1600869460 source:d:\programming\dsp\dspcplusplus\chord.cpp
+	"chord.h"
+	"musical_notes.h"
+
+1600792836 d:\programming\dsp\dspcplusplus\chord.h
+	"Chord-Detector-and-Chromagram\src\ChordDetector.h"
+	"musical_notes.h"
+	<string>
+	<iostream>
+	<vector>
+
+1601218885 source:d:\programming\dsp\dspcplusplus\track_sequence.cpp
+	"track_sequence.h"
+
+1601218009 d:\programming\dsp\dspcplusplus\track_sequence.h
+	"musical_notes.h"
+	"chord.h"
+	<iostream>
+	<vector>
+	<string>
+	<algorithm>
 

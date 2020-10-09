@@ -38,6 +38,7 @@
 					<Add directory="D:/Programming/DSP/matplotlib-cpp-master" />
 					<Add directory="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/numpy/core/include" />
 					<Add directory="fftw-3.3.5-dll32" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -50,7 +51,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
+			<Add option="-std=c++14" />
 			<Add option="-lpython3.7" />
 			<Add option="-lpthread" />
 			<Add option="-lutil -ldl" />
@@ -73,18 +74,26 @@
 			<Add library="C:/Users/TharaMac/AppData/Local/Programs/Python/Python37-32/libs/libpython37.a" />
 			<Add library="C:/Program Files (x86)/CodeBlocks/MinGW/lib/gcc/mingw32/5.1.0/libgcc.a" />
 		</Linker>
-		<Unit filename="ChordDetectorandChromagram/ChordDetector.cpp" />
-		<Unit filename="ChordDetectorandChromagram/ChordDetector.h" />
-		<Unit filename="ChordDetectorandChromagram/Chromagram.cpp" />
-		<Unit filename="ChordDetectorandChromagram/Chromagram.h" />
+		<Unit filename="Chord-Detector-and-Chromagram/src/ChordDetector.cpp" />
+		<Unit filename="Chord-Detector-and-Chromagram/src/ChordDetector.h" />
+		<Unit filename="Chord-Detector-and-Chromagram/src/Chromagram.cpp" />
+		<Unit filename="Chord-Detector-and-Chromagram/src/Chromagram.h" />
+		<Unit filename="chord.cpp" />
+		<Unit filename="chord.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="dsp.hpp" />
 		<Unit filename="gnuplot_i.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="musical_note.cpp">
-			<Option target="&lt;{~None~}&gt;" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="musical_notes.h" />
 		<Unit filename="plot.hpp" />
+		<Unit filename="raw_audio.cpp" />
+		<Unit filename="raw_audio.h" />
+		<Unit filename="track_sequence.cpp" />
+		<Unit filename="track_sequence.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

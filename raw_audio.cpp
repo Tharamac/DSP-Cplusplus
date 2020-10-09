@@ -4,7 +4,6 @@ RawAudio::RawAudio(const char *path){
     ifstream pcm;
     int size;
     pcm.open(path, ios::in|ios::binary|ios::ate);
-    cout << path << endl;
     if(pcm.is_open()){
         size = (int) pcm.tellg();
         pcm.seekg (0, ios::beg);

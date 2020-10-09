@@ -67,7 +67,7 @@ double geometric_mean(std::vector<double> const & data)
 
 double short_term_energy(double *frame, size_t N){
     double sum = 0;
-    for(int i = 0; i < N; ++i){
+    for(size_t i = 0; i < N; ++i){
         sum += frame[i]*frame[i];
     }
     return sum;
@@ -75,13 +75,13 @@ double short_term_energy(double *frame, size_t N){
 
 double zcr(double *input, size_t N){
     double sum = 0.0;
-    for(int i = 0; i < N - 1 ; i++){
+    for(size_t i = 0; i < N - 1 ; i++){
        sum += (input[i]*input[i+1] < 0 ) ? 1 : 0;
     }
     return sum / (N - 1);
 }
 
-double find_peak(vector<double> real_spectrum, int N){
+double find_peak(vector<double> &real_spectrum, int N){
     int index = max_element(real_spectrum.begin(), real_spectrum.end()) - real_spectrum.begin();
     double freq = 0.5*index*Fs;
     freq /= (float)N;
@@ -142,7 +142,7 @@ void find5peaks(vector<double> real_spectrum, int N, vector<double>& topfreq){
 double spectral_flatness(vector<double> real_spectrum,  size_t N){
     double arithmean = 0;
     double geomean = geometric_mean(real_spectrum);
-    for(int i = 0; i < N; ++i){
+    for(size_t i = 0; i < N; ++i){
         arithmean += real_spectrum[i];
     }
     arithmean /= (float)N;
@@ -191,13 +191,13 @@ void VAD_convert(vector<int> vad, vector<int> new_vad){
 }
 
 
-double filterBank_with_peak(vector<double> real_spectrum,int note, double note_ref, int FFT_size){
+double filterBank_with_peak(vector<double> real_spectrum, int note, double note_ref, int FFT_size){
 	vector<double> temp(real_spectrum.size());
-	for(int i = 0; i <  real_spectrum.size(); i++){
+	for(size_t i = 0; i <  real_spectrum.size(); i++){
         temp[i] = 0;
 	}
 
-	Gnuplot test;
+	//Gnuplot test;
 	/*
 	vector<double> sample(real_spectrum.size());
     for(int i = 0; i < sample.size() ; i++){
@@ -207,19 +207,19 @@ double filterBank_with_peak(vector<double> real_spectrum,int note, double note_r
 	double start_freq = note_ref * pow(2 , (note - 1) / 12.0);
 	double mid_freq = note_ref * pow(2 , note / 12.0);
 	double end_freq = note_ref * pow(2 , (note + 1) / 12.0);
-	cout << start_freq << " " << mid_freq << " "  << end_freq << endl;
+	//cout << start_freq << " " << mid_freq << " "  << end_freq << endl;
 	const double log_slope = 12.0;
 
-    for(int i = 1; i < real_spectrum.size() ; i++){
+    for(size_t i = 1; i < real_spectrum.size() ; i++){
         double freq_i = i*0.5*Fs/FFT_size;
         if(freq_i < start_freq){
             temp[i] = 0;
            // cout << "-  " ;
         }else if (freq_i <= mid_freq){
-            temp[i] =  log_slope * log2(freq_i/start_freq) /* real_spectrum[i]*/;
+            temp[i] =  log_slope * log2(freq_i/start_freq) * real_spectrum[i];
            // cout << "R  " ;
         }else if (freq_i <= end_freq){
-            temp[i] =  log_slope * log2(end_freq/freq_i) /* real_spectrum[i]*/;
+            temp[i] =  log_slope * log2(end_freq/freq_i) * real_spectrum[i];
             //cout << "F  " ;
         }else{
             temp[i] = 0;
@@ -229,11 +229,12 @@ double filterBank_with_peak(vector<double> real_spectrum,int note, double note_r
     }
     double peak = *max_element(temp.begin(), temp.end());
 
-
+/*
     test.set_grid();
     test.set_style("lines").plot_x(temp,"spectrum after applying filter");
     test.showonscreen();
     getch();
+    */
     return peak;
 
 }

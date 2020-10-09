@@ -3,6 +3,9 @@
 #include "gnuplot_i.hpp"
 #include "dsp.hpp"
 #include "plot.hpp"
+#include "musical_notes.h"
+#include "chord.h"
+#include "track_sequence.h"
 
 #include <iostream>
 #include <complex>
@@ -35,31 +38,8 @@ using namespace std;
     2205     data(2205 -> 6614)         while ( 4410 + 4410 = 8820 !< 7540) exit;
 */
 int main(){
-    /*
-    ifstream pcm;
-    char* bytedata;
-    int size;
-    pcm.open("samples/bew_do.pcm",ios::in|ios::binary|ios::ate);
-    if(pcm.is_open()){
-        size = (int) pcm.tellg();
-        cout << "size = " << size << " bytes" << endl;
-        pcm.seekg (0, ios::beg);
-        bytedata = new char[size];
-        pcm.read(bytedata, size);
-        pcm.close();
-    }else cout << "Unable to open file" << endl;
-    const int sample_size = size / 2;
-    cout << "sample_size = " << sample_size << " bytes" << endl;
-    vector<short> shortdata(sample_size);
-    vector<double> doubledata(sample_size);
-
-    for(int i = 0; i < sample_size; i++){
-        shortdata[i] = (( (short) bytedata[i*2+1] ) << 8 ) | (bytedata[i*2] & 0xFF);
-        doubledata[i] = (double)shortdata[i] / 32768.0;
-    }
-    */
-
-    RawAudio audio_input = RawAudio("samples/bew_do.pcm");
+    //RawAudio audio_input("samples/bew_do.pcm");
+    RawAudio audio_input("samples/twinkle_samples.pcm");
     vector<double> doubledata = audio_input.doubledata;
     const int sample_size = audio_input.getSampleSize();
 
@@ -107,37 +87,27 @@ int main(){
     // VAD decision
     // False rejection optimization.
 
-    int frame_score = 0;
-
     const int energy_pthresh = 40;
-    const int freq_pthresh = 0;
     const int sfm_pthresh = 5;
     const double zcr_pthresh = 0.1;
 
     // Frame #0 - #28 assuming silence.
-    double min_energy = *min_element(frame_energy.begin(), frame_energy.begin() + 28);
-    double min_freq = *min_element(frame_freq_peak.begin(), frame_freq_peak.begin() + 28 );
-    double min_sfm = *min_element(frame_spectralflatness.begin(), frame_spectralflatness.begin() + 28);
-    //cout << "minimum energy = " << min_energy << endl;
-    //cout << "minimum peak freq = " << min_freq << endl;
-    //cout << "minimum sf = " << min_sfm << endl;
-
+    double min_energy = *min_element(frame_energy.begin(), frame_energy.begin() + 28);
     double energy_threshold = energy_pthresh * min_energy;
-    cout << energy_threshold<< endl;
-    vector<int> VADresult(num_of_frame);
+    vector<bool> VADresult(num_of_frame);
     /* ignore on NDK */
     vector<int> energy_passed(num_of_frame);
     vector<int> freq_passed(num_of_frame);
     vector<int> sfm_passed(num_of_frame);
     vector<int> zcr_passed(num_of_frame);
-    double unvoice_count = 0;
+    //double unvoice_count = 0;
     for(int i = 29; i < num_of_frame; ++i){
         int frame_score = 0;
         if(frame_energy[i] >= energy_threshold){
             energy_passed[i] = 1;
             frame_score++;
         }
-        if(frame_zerocrossing_rate[i] <= 0.1){
+        if(frame_zerocrossing_rate[i] <= zcr_pthresh){
             zcr_passed[i] = 1;
             frame_score++;
         }
@@ -154,19 +124,19 @@ int main(){
         }
 
     }
-  //rting because if you expand window size the less silence padding.
-    vector<int> VADcompare;
-    int pos = 0;
-    int   k = 0;
+/*
+    vector<bool> VADcompare;
+    unsigned int pos = 0;
+    unsigned int k = 0;
     while (pos < VADresult.size()){
-         int result = (VADresult[pos] || VADresult[pos+1]) && VADresult[pos+2];
+         bool result = (VADresult[pos] || VADresult[pos+1]) && VADresult[pos+2];
          VADcompare.push_back(result);
          pos += 2;
          k++;
     }
-    VADcompare[VADcompare.size()-1] = 0;
+    VADcompare.resize(VADresult.size()-1);
 
-
+*/
 
 
     // VAD plotting;
@@ -177,7 +147,7 @@ int main(){
     // Note Detection
     // frame_size for note detection 0.08; (twice of VAD window size)
     // I use "nd" as a prefix on this part.
-    const double nd_frame_size = 0.080;
+    const double nd_frame_size = 0.040;
     const int nd_sample_per_frame = nd_frame_size*Fs;
     const int N = 4096;
     const int N_fft = N/2+1;
@@ -185,10 +155,11 @@ int main(){
     vector<double> nd_real_spectrum(N_fft);
     vector<double> nd_freq(N_fft);
     vector<vector<double>> nd_5freq_detect;
+    vector<int> peak_offset;
     vector<int> notes_from_filter_bank;
     current_window_start = 0;
     fftw_complex* nd_spectrum = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * (N_fft));
-    int nd_num_of_frame=0;
+    int nd_num_of_frame = 0;
 
     //find peak for note detection using peak frequency not accurate
     do{
@@ -208,54 +179,72 @@ int main(){
         double max_peak = 0;
         for(int i = 0; i < 48; i++){
             peak_of_each_notes[i] = filterBank_with_peak(nd_real_spectrum, i, C3, N_fft);
-
             if(peak_of_each_notes[i] > max_peak){
                 max_peak = peak_of_each_notes[i];
                 note = i;
             }
         }
         notes_from_filter_bank.push_back(note);
-
-        vector<double> peaks(5);
-        find5peaks(nd_real_spectrum, N_fft, peaks);
-        nd_5freq_detect.push_back(peaks);
+        double peak = find_peak(nd_real_spectrum, N_fft);
+        peak_offset.push_back(note_shift(peak,C3));
         nd_num_of_frame++;
         current_window_start += (nd_sample_per_frame/2);
     }while( current_window_start + nd_sample_per_frame <= sample_size );
-    cout <<  nd_num_of_frame << endl;
+
     // store in 1D array, then convert to 2D array size[nd_num_of_frame][5]
    // nd_5freq_detect.resize(nd_num_of_frame);
   //find peak for note detection using chromagram
-    /*
+/*
     current_window_start = 0;
     vector<int> chroma_vector;
     int num_of_chromaframe = 0;
     do{
-        double nd_chromaframe[nd_sample_per_frame] = {0.0};
+        vector<double> nd_chromaframe(nd_sample_per_frame);
         for(int i = 0; i < nd_sample_per_frame ; i++){
             nd_chromaframe[i] = doubledata[i + current_window_start];
         }
 
-        Chromagram note_c (nd_sample_per_frame,Fs);
-        note_c.setChromaCalculationInterval(nd_sample_per_frame);
-        note_c.processAudioFrame(nd_chromaframe);
-
-        if (note_c.isReady())
+        Chromagram chromagram(nd_sample_per_frame,Fs);
+        chromagram.setChromaCalculationInterval(nd_sample_per_frame);
+        chromagram.processAudioFrame(nd_chromaframe);
+        ChordDetector chordDetector;
+        if (chromagram.isReady())
         {
-
-            vector<double> chroma = note_c.getChromagram();
-            int max_note = max_element(chroma.begin(), chroma.end()) - chroma.begin();
-            chroma_vector.push_back(max_note);
-
+            vector<double> chroma = chromagram.getChromagram();
+            chordDetector.detectChord(chroma);
         }
+
+        //cout << chordDetector.rootNote << "  " << chordDetector.quality << " | " << chordDetector.intervals << endl;
+        int root_note = (int)chordDetector.rootNote;
+        int chord_quality = (int)chordDetector.quality;
+        int intervals = (int)chordDetector.intervals;
+        ChordUnit chord(root_note, 4, chord_quality, intervals);
+        if(VADresult[num_of_chromaframe] == 1)
+            cout << chord.toString() << endl;
+        else cout << "--" << endl;
+
         num_of_chromaframe++;
         current_window_start += (nd_sample_per_frame/2);
     }while( current_window_start + nd_sample_per_frame <= sample_size );
-    */
+*/
+
+    vector<NoteUnit> detected_notes_filter_bank;
+    NoteUnit ref_note(NotePitch::C, 3);
+    transformNotes(notes_from_filter_bank, detected_notes_filter_bank, VADresult, ref_note);
+/*
+    for(size_t i = 0; i < nd_num_of_frame; i++){
+        cout << i << "." << detected_notes_filter_bank[i].toString() << endl;
+    }
+*/
+    Melody track(detected_notes_filter_bank);
+    track.calcKey();
+    cout << track.toString() << endl;
+
 
     //  Test Note Detection
+/*
     for(int i = 0 ; i < nd_num_of_frame ; i++){
-        if(VADcompare[i]){
+       if(VADresult[i]){
             cout << nd_5freq_detect[i][0] << "\t";
             cout << note_shift(nd_5freq_detect[i][0], C3) << "\t";
             cout << notes_from_filter_bank[i] << "\t";
@@ -268,7 +257,7 @@ int main(){
         cout << " | " << endl;
     }
     cout << endl;
-
+*/
     //getch();
     fftw_free(spectrum);
     fftw_free(nd_spectrum);
