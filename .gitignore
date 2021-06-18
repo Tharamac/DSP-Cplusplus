@@ -1,6 +1,9 @@
 /gnuploti*
-bin/Debug/*
-obj/Debug/*
+bin/*
+obj/*
 /*.raw
 /*.pcm
-
+Chord-Detector-and-Chromagram
+.vscode
+fftw-3.3.5-dll32
+fftw3_r2c_usage.c
