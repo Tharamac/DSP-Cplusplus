@@ -1,5 +1,5 @@
 # DSP-Cplusplus
-This project is the test of the DSP module in C++ before implementing it on Android Development. Some of them were implement into Android Application call RectoNote ([repo](https://github.com/Tharamac/Rectonote)) by conrtinue implementing C++ or converting to Kotlin
+This project is the test of the DSP module in C++ before implementing it on Android Development. Some of them were implement into Android Application call RectoNote ([repo](https://github.com/Tharamac/Rectonote)) by continue implementing C++ or converting to Kotlin
 
 The code is developed under Code::Block IDE and std/C++17. But, My code is legacy code because I develop based on C which is my prior knowledge. 
 
